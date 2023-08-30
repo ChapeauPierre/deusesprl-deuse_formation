@@ -22,14 +22,21 @@ class Topic(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        if not self.slug_history.filter(slug_history=self.slug).exists(): # TODO : change for optimized query
-            self.slug_history.create(slug_history=self.slug)
+         
+        if not self.slug:
+            self.slug = slugify(self.name)
+        
+        if self.slug != slugify(self.name):
+           self.slug_history.create(slug_history=self.slug, Topic=self)
         self.slug = slugify(self.name)
+
         if self.slug_history.filter(slug_history=self.slug).exists():
                 self.slug_history.filter(slug_history=self.slug).delete()
         if (Topic.objects.filter(slug=self.slug).exists() and not self.pk) or SlugHistory.objects.filter(slug_history=self.slug).exists():
             self.slug = slugify(self.name) + '-' + str(self.pk)
         # if self slug is not in history, add it
+
+
         
         super(Topic, self).save(*args, **kwargs)
 

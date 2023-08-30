@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign in | {% endblock %}
+
+{% block content %}
+{% include 'frags/header.html' %}
+
+<main class="page__content">
+    <section class="section wrapper--form wrapper--centered">
+        <div class="card card--form">
+            <div class="section--centered">
+                <h1 class="title--header">Connexion</h1>
+            </div>
+
+            <div class="form__container">
+                <form>
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="title">Email</label>
+                            <input type="email" class="input--classic input--text" placeholder="Quel est votre email"
+                                id="email" name="email" />
+                        </div>
+                    </div>
+
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="pwd">Mot de passe</label>
+                            <input type="password" class="input--classic input--text"
+                                placeholder="Quel est votre mot de passe" id="pwd" name="pwd" />
+                        </div>
+                    </div>
+
+                    <div class="form__submit">
+                        <input type="submit" class="btn btn--primary btn--full" value="Connexion" />
+                        <div class="section--centered">
+                            <a href="#" class="password__reset" title="Réinitialiser mon mot de passe">Mot de passe
+                                oublié ?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

@@ -1,0 +1,16 @@
+//** Style des cards pour les articles **//
+
+.card{
+  background: white;
+  border-radius: 8px;
+  box-shadow: 2px 5px 20px 10px rgba(1,1,1,0.03);
+  @include transition_css(all, 0.25s, ease,0s);
+
+  &.topic__item:hover{
+    box-shadow: 2px 5px 20px 10px rgba(1,1,1,0.08);
+  }
+}
+
+.card--form{
+  padding:make_em(40,15) 5%  make_em(60,15);
+}

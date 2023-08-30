@@ -1,0 +1,107 @@
+//** Style des éléments menu (du Header) **//
+
+.menu__profile{
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  display: block;
+}
+
+
+.header__menu{
+
+  a{
+    color: $color-text-light;
+    font-weight: 300;
+    font-size: make_em(16,15);
+  }
+
+  a:hover{
+    color: $color-primary;
+    text-decoration: underline;
+  }
+
+  li{
+    display: block;
+  }
+
+  li+li{
+    margin-left: make_em(40,15);
+  }
+}
+
+.menu__item--current{
+  a{
+    color: $color-primary;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+
+
+.categories__list{
+  margin-top: make_em(15,15);
+}
+
+.category__item{
+  display: block;
+  font-size: make_em(16,15);
+
+  &+&{
+    margin-top: make_em(8,16);
+  }
+}
+
+.category__link{
+  color: $color-text-light;
+}
+
+.category__item--current{
+  font-weight: 700;
+
+  a{
+    border-radius: 5px;
+    display: block;
+    color: $color-primary;
+  }
+}
+
+
+@media(max-width:1200px){
+  .header__menu{
+    li+li{
+      margin-left: make_em(25,15);
+    }
+  }
+}
+
+
+
+@media(max-width:850px){
+  .categories__list{
+    display: flex;
+    margin-top: make_em(10,15);
+  }
+
+  .category__item{
+    font-size: make_em(15,15);
+    margin-right: make_em(15,15);
+    &+&{
+      margin-top: 0px;
+    }
+  }
+}
+
+@media(max-width:550px){
+
+  .header__menu{
+
+    li{
+      font-size: make_em(14,15);
+    }
+    li+li{
+      margin-left: make_em(15,14);
+    }
+  }
+}

@@ -1,0 +1,98 @@
+//** Style des éléments des formulaires **//
+
+span.select2-container--default .select2-selection--single{
+  border:1px solid darken($color-grey-border,5%) !important;
+  border-radius: 0px !important;
+}
+
+textarea{
+  min-height: 100px;
+}
+
+
+.form__part{
+  input, textarea{
+    width: 100%;
+  }
+}
+.form__part--half{
+  width: 47.5%;
+}
+.form__part--full{
+  width: 100%;
+}
+
+.form__line{
+  &+&{
+    margin-top: make_em(15,15);
+  }
+}
+
+
+.form__submit{
+  margin-top: make_em(30,15);
+}
+
+.form__error{
+  border:1px solid red;
+  color: red;
+  background: rgba(red,0.2);
+}
+
+.form__success{
+  border:1px solid green;
+  color: green;
+  background: rgba(green,0.2);
+}
+
+select{
+  position: relative;
+  background: url("../img/arrow--down.svg") no-repeat 97.5% center rgba(255, 255, 255, 0.1)
+}
+
+textarea{
+  min-height: 200px;
+}
+
+.input--classic{
+  border:1px solid $color-grey-border;
+  border-radius: 9px;
+  padding: make_em(10,15) make_em(15,15);
+}
+
+.search__input{
+  font-size: make_em(14,15);
+  padding:make_em(10,14) make_em(20,14);
+}
+
+.answer__form{
+  margin-top: make_em(20,15);
+}
+
+.form__submit{
+  margin-top: make_em(30,15);
+}
+.form__container{
+  margin-top: make_em(30,15);
+
+  .form__submit{
+    margin-top: make_em(30,15);
+  }
+}
+
+.form__label{
+  display: block;
+  color: black;
+  font-weight: 700;
+  font-size: make_em(16,15);
+  margin-bottom: 10px;
+}
+@media(max-width:450px){
+
+  .form__part--half{
+    width: 100%;
+    &+&{
+      margin-top: make_em(15,15);
+    }
+  }
+}

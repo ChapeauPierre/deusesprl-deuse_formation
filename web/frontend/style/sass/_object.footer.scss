@@ -1,0 +1,10 @@
+//** Style global du footer et de ses éléments **//
+
+
+footer{
+  margin-top: percentage(100/1520);
+  padding-top: make_em(20,15);
+  padding-bottom: make_em(20,15);
+  color: $color-text-light;
+  font-size:make_em(14,15);
+}

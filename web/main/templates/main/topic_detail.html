@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block title %}Topic | {% endblock %}
+
+{% block content %}
+<header>
+    <div class="header__upper column column--spaced column--centered wrapper--main">
+        <a href="/" title="Retourner à la page d’accueil" class="header__logo">Django Forum</a>
+
+        <form class="header__search">
+            <input type="text" class="search__input" placeholder="Rechercher un sujet ..." />
+            <div class="search__submit">
+                <input type="submit" value="Rechercher">
+                <span class="submit__icon">
+                    <img src="/static/img/search.svg" alt="Image rechercher" />
+                </span>
+            </div>
+        </form>
+        <nav class="header__menu">
+            <span class="hide">Menu de navigation</span>
+            <ul class="menu__list column column--centered">
+                <li>
+                    <a href="/topics/" title="Aller à la page des sujets">Sujets</a>
+                </li>
+
+                <li>
+                    <a href="/register/" title="Aller à la page d'inscription">Inscription</a>
+                </li>
+
+                <li>
+                    <a href="/login/" title="Aller à la page de connexion">Connexion</a>
+                </li>
+
+                <li>
+                    <a href="/profile/user_pk/" title="Afficher mon profil">
+                        <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                            alt="Photo de Profil de ..." class="menu__profile" />
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="header__content wrapper--main">
+        <nav>
+            <span class="hide">Fil D'ariane</span>
+            <ul class="breadcrumb__list column column--centered">
+                <li class="breadcrumb__item">
+                    <a href="/" title="Retourner à la page d'accueil">Accueil</a>
+                </li>
+    
+                <li class="breadcrumb__item">
+                    <a href="/topics/" title="Retourner à la page des sujets">Tous les sujets</a>
+                </li>
+    
+                <li class="breadcrumb__item">
+                    <a href="/topics/" title="Retourner à la page des sujets">Ouverts</a>
+                </li>
+    
+                <li class="breadcrumb__item breadcrumb__item--current">
+                    <span>La programmation peut-elle être considérée comme un art ?</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="page__content forum__content column--free wrapper--main">
+
+    <a href="/topics/new/" title="Créer un nouveau sujet" class="topic__create"><span>+</span></a>
+
+    <div class="forum__main">
+        <section>
+            <header class="topic__header">
+                <h1 class="title--header">
+                    La programmation peut-elle être considérée comme un art ?
+                </h1>
+
+                <div class="answer__header answer__header--main column column--centered">
+                    <div class="picture__container">
+                        <img class="author__picture" src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                            alt="Photo de Profil de ..." />
+                    </div>
+                    <div class="answer__author">
+                        <div class="column column--centered">
+                            <h3 class="title--author">Axel Cardinaels</h3>
+                            <span class="author__rank">Vétéran</span>
+                        </div>
+                        <p class="answer__date">Il y a 2 heures</p>
+                    </div>
+                </div>
+
+                <div class="topic__content">
+                    <p>
+                        Tous les ans se tient un <em>concours de programmation[1]</em> en langage C qui s’appelle « The
+                        International Obfuscated C Code Contest ».
+                    </p>
+                    <p>
+                        Comme son nom l’indique, le but est d’écrire un programme en C qui soit valide et fonctionnel
+                        bien qu’incompréhensible, souvent avec des astuces du langage très intelligentes et un tout
+                        petit nombre de caractères.
+                    </p>
+                </div>
+            </header>
+
+
+            <div class="topics__answers">
+                <h2 class="title--section">24 Réponses</h2>
+                <ul class="answers__list">
+                    <li class="answer__item">
+                        <article class="answer__article">
+                            <div class="answer__header column column--centered">
+                                <div class="picture__container">
+                                    <img class="author__picture author__picture--answer"
+                                        src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                        alt="Photo de Profil de ..." />
+                                </div>
+                                <div class="answer__author">
+                                    <div class="column column--centered">
+                                        <h3 class="subtitle--author">Romain Dubois</h3>
+                                        <span class="author__rank">Daron</span>
+                                    </div>
+                                    <p class="answer__date">Il y a 2 heures</p>
+                                </div>
+                            </div>
+
+                            <div class="answer__content">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet, magna nec
+                                    pellentesque tincidunt, nisl risus lobortis felis, iaculis condimentum mauris arcu
+                                    at nunc. Etiam viverra metus sed tincidunt blandit. Maecenas viverra mauris et leo
+                                    rutrum pretium. Ut nec velit hendrerit, gravida nisl feugiat, commodo tellus.
+                                    Quisque sit amet mauris sem. Morbi efficitur pulvinar massa vel maximus. Donec
+                                    lobortis lacus eget risus laoreet ullamcorper. Donec ut porttitor erat. Mauris purus
+                                    sapien, ornare id orci eget, fermentum dapibus sem. In vestibulum libero erat,
+                                    sollicitudin cursus felis pulvinar vitae. Vivamus ut condimentum leo. Phasellus
+                                    aliquam, est eget consequat ultrices, nunc felis finibus justo, et mattis diam enim
+                                    sed nibh. Vivamus ullamcorper sodales diam. Fusce rhoncus metus non orci vehicula,
+                                    sit amet commodo est pellentesque. Nullam eleifend porttitor arcu id accumsan.
+                                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                                    curae;
+                                </p>
+                                <p>
+                                    Quisque vel sollicitudin lorem, ac venenatis nunc. Vivamus gravida risus in euismod
+                                    finibus. Maecenas condimentum sem vitae venenatis vehicula. In hac habitasse platea
+                                    dictumst. Morbi mi lorem, ornare sit amet interdum ut, laoreet non tortor. Donec ac
+                                    nunc et lorem blandit consectetur. Phasellus pharetra purus in leo facilisis
+                                    ultrices. Vestibulum quis ligula et odio tincidunt placerat vitae eget nunc. Quisque
+                                    at leo tincidunt, dapibus arcu eget, consequat purus. Nam in dignissim justo.
+                                    Aliquam vitae malesuada lectus. Nullam sit amet quam maximus justo efficitur tempus.
+                                    Proin mattis orci ac felis porta sagittis. Sed dictum ex vitae iaculis venenatis.
+                                    Aliquam erat volutpat. Pellentesque accumsan enim malesuada, mattis ligula quis,
+                                    fermentum augue.
+                                </p>
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="answer__item">
+                        <article class="answer__article">
+                            <div class="answer__header column column--centered">
+                                <div class="picture__container">
+                                    <img class="author__picture author__picture--answer"
+                                        src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                        alt="Photo de Profil de ..." />
+                                </div>
+                                <div class="answer__author">
+                                    <div class="column column--centered">
+                                        <h3 class="subtitle--author">Romain Dubois</h3>
+                                        <span class="author__rank">Daron</span>
+                                    </div>
+                                    <p class="answer__date">Il y a 2 heures</p>
+                                </div>
+                            </div>
+
+                            <div class="answer__content">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet, magna nec
+                                    pellentesque tincidunt, nisl risus lobortis felis, iaculis condimentum mauris arcu
+                                    at nunc. Etiam viverra metus sed tincidunt blandit. Maecenas viverra mauris et leo
+                                    rutrum pretium. Ut nec velit hendrerit, gravida nisl feugiat, commodo tellus.
+                                    Quisque sit amet mauris sem. Morbi efficitur pulvinar massa vel maximus. Donec
+                                    lobortis lacus eget risus laoreet ullamcorper. Donec ut porttitor erat. Mauris purus
+                                    sapien, ornare id orci eget, fermentum dapibus sem. In vestibulum libero erat,
+                                    sollicitudin cursus felis pulvinar vitae. Vivamus ut condimentum leo. Phasellus
+                                    aliquam, est eget consequat ultrices, nunc felis finibus justo, et mattis diam enim
+                                    sed nibh. Vivamus ullamcorper sodales diam. Fusce rhoncus metus non orci vehicula,
+                                    sit amet commodo est pellentesque. Nullam eleifend porttitor arcu id accumsan.
+                                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                                    curae;
+                                </p>
+                                <p>
+                                    Quisque vel sollicitudin lorem, ac venenatis nunc. Vivamus gravida risus in euismod
+                                    finibus. Maecenas condimentum sem vitae venenatis vehicula. In hac habitasse platea
+                                    dictumst. Morbi mi lorem, ornare sit amet interdum ut, laoreet non tortor. Donec ac
+                                    nunc et lorem blandit consectetur. Phasellus pharetra purus in leo facilisis
+                                    ultrices. Vestibulum quis ligula et odio tincidunt placerat vitae eget nunc. Quisque
+                                    at leo tincidunt, dapibus arcu eget, consequat purus. Nam in dignissim justo.
+                                    Aliquam vitae malesuada lectus. Nullam sit amet quam maximus justo efficitur tempus.
+                                    Proin mattis orci ac felis porta sagittis. Sed dictum ex vitae iaculis venenatis.
+                                    Aliquam erat volutpat. Pellentesque accumsan enim malesuada, mattis ligula quis,
+                                    fermentum augue.
+                                </p>
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="answer__item">
+                        <article class="answer__article">
+                            <div class="answer__header column column--centered">
+                                <div class="picture__container">
+                                    <img class="author__picture author__picture--answer"
+                                        src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                        alt="Photo de Profil de ..." />
+                                </div>
+                                <div class="answer__author">
+                                    <div class="column column--centered">
+                                        <h3 class="subtitle--author">Romain Dubois</h3>
+                                        <span class="author__rank">Daron</span>
+                                    </div>
+                                    <p class="answer__date">Il y a 2 heures</p>
+                                </div>
+                            </div>
+
+                            <div class="answer__content">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet, magna nec
+                                    pellentesque tincidunt, nisl risus lobortis felis, iaculis condimentum mauris arcu
+                                    at nunc. Etiam viverra metus sed tincidunt blandit. Maecenas viverra mauris et leo
+                                    rutrum pretium. Ut nec velit hendrerit, gravida nisl feugiat, commodo tellus.
+                                    Quisque sit amet mauris sem. Morbi efficitur pulvinar massa vel maximus. Donec
+                                    lobortis lacus eget risus laoreet ullamcorper. Donec ut porttitor erat. Mauris purus
+                                    sapien, ornare id orci eget, fermentum dapibus sem. In vestibulum libero erat,
+                                    sollicitudin cursus felis pulvinar vitae. Vivamus ut condimentum leo. Phasellus
+                                    aliquam, est eget consequat ultrices, nunc felis finibus justo, et mattis diam enim
+                                    sed nibh. Vivamus ullamcorper sodales diam. Fusce rhoncus metus non orci vehicula,
+                                    sit amet commodo est pellentesque. Nullam eleifend porttitor arcu id accumsan.
+                                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                                    curae;
+                                </p>
+                                <p>
+                                    Quisque vel sollicitudin lorem, ac venenatis nunc. Vivamus gravida risus in euismod
+                                    finibus. Maecenas condimentum sem vitae venenatis vehicula. In hac habitasse platea
+                                    dictumst. Morbi mi lorem, ornare sit amet interdum ut, laoreet non tortor. Donec ac
+                                    nunc et lorem blandit consectetur. Phasellus pharetra purus in leo facilisis
+                                    ultrices. Vestibulum quis ligula et odio tincidunt placerat vitae eget nunc. Quisque
+                                    at leo tincidunt, dapibus arcu eget, consequat purus. Nam in dignissim justo.
+                                    Aliquam vitae malesuada lectus. Nullam sit amet quam maximus justo efficitur tempus.
+                                    Proin mattis orci ac felis porta sagittis. Sed dictum ex vitae iaculis venenatis.
+                                    Aliquam erat volutpat. Pellentesque accumsan enim malesuada, mattis ligula quis,
+                                    fermentum augue.
+                                </p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pagination__container column column--centered">
+                <a href="#" class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                    <span><</span>
+                </a>
+                <ul class="pagination__list column column--centered">
+                    <li class="pagination__item pagination__item--current">
+                        <a href="#" class="pagination__link" title="Aller à la page 1 des sujets">1</a>
+                    </li>
+
+                    <li class="pagination__item">
+                        <a href="#" class="pagination__link" title="Aller à la page 2 des sujets">2</a>
+                    </li>
+
+                    <li class="pagination__item">
+                        <a href="#" class="pagination__link" title="Aller à la page 3 des sujets">3</a>
+                    </li>
+                </ul>
+                <a href="#" class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                    <span>></span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section answer__answer">
+            <h2 class="title--section">Ajouter une réponse</h2>
+            <form class="answer__form">
+                <div class="form__line">
+                    <div class="form__part form__part--full">
+                        <textarea class="input--classic input--text" placeholder="Quelle est votre réponse ?"
+                            id="answer"></textarea>
+                    </div>
+                </div>
+
+                <div class="form__submit">
+                    <input type="submit" class="btn btn--primary btn--full" value="Poster ma réponse" />
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <aside class="forum__aside">
+        <nav class="categories__menu">
+            <h2 class="title--category">Catégories</h2>
+            <ul class="categories__list">
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link" title="Afficher tous les sujets">
+                        Tous les sujets
+                    </a>
+                </li>
+
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link"
+                        title="Afficher tous les sujets de la catégorie résolus">
+                        Résolus
+                    </a>
+                </li>
+
+                <li class="category__item category__item--current">
+                    <a href="javascript:void(0)" class="category__link"
+                        title="Afficher tous les sujets de la catégorie ouverts">
+                        Ouverts
+                    </a>
+                </li>
+
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link"
+                        title="Afficher tous les sujets de la catégorie pas encore de réponse">
+                        Pas encore de réponse
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'admin/base_site.html' %}
+
+{% load static %}
+
+{% block branding %}
+	<img class="admin__logo" alt="Logo de Deuse" src="{% static 'img/logo-deuse.svg' %}">
+{% endblock %}
+
+{% block footer %}
+	<footer class="admin__footer">
+		<a href="http://www.deuse.be" title="Visiter le site de Deuse" target="_blank">
+			<img class="footer__logo" alt="Logo de Deuse" src="{% static 'img/logo-deuse.svg' %}">
+		</a>
+	</footer>
+{% endblock %}

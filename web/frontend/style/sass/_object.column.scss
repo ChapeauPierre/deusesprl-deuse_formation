@@ -1,0 +1,26 @@
+//** Style de base pour l'alignement et la disposition des éléments **//
+
+.column{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column--free{
+  display: flex;
+}
+
+.column--distributed{
+  justify-content: space-between;
+}
+
+.column--centered{
+  align-items: center;
+}
+
+.column--spaced{
+  justify-content: space-between;
+}
+
+.column--centered-w{
+  justify-content: center;
+}

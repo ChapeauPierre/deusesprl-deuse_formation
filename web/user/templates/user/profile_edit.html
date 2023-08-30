@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil Edit | {% endblock %}
+
+{% block content %}
+{% include 'frags/header.html' %}
+
+<main class="page__content">
+	<section class="section wrapper--form wrapper--centered">
+			<div class="card card--form">
+				<div class="form__container">
+					<form method="post" class="form" action= {% url 'user:profile_edit' user.id %} enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="section--centered">
+							<input type="file" id="avatar" / hidden name="avatar">
+							<label class="picture__container picture__container--detail" for="avatar" >
+								<img class="author__picture author__picture--detail" src={{ user.get_avatar_url }} alt="Photo de Profil de {{ user.get_fullname }}" />
+						</div>
+	
+						<div class="form__line column column--spaced">
+							<div class="form__part form__part--half">
+								{% include 'frags/form_inputs.html' with form_input=form.first_name input_placeholder='Votre Prénom' input_class="input--classic input--text" input_label='Prénom' %}
+							</div>
+	
+							<div class="form__part form__part--half">
+								{% include 'frags/form_inputs.html' with form_input=form.last_name input_placeholder='Votre Nom de famille' input_class="input--classic input--text" input_label='Nom de famille' %}
+							</div>
+						</div>
+						<div class="form__line">
+							<div class="form__part form__part--full">
+								<label class="form__label" for="password1">Nouveau mot de passe</label>
+								<input type="password" class="input--classic input--text" placeholder="Votre nouveau mot de passe" id="password1" name="password1" />
+							</div>
+						</div>
+	
+						<div class="form__line">
+							<div class="form__part form__part--full">
+								<label class="form__label" for="password2">Confirmer votre nouveau mot de passe</label>
+								<input type="password" class="input--classic input--text" placeholder="Votre nouveau mot de passe" id="password2" name="password2" />
+							</div>
+						</div>
+	
+	
+						<div class="form__submit">
+							<input  type="submit" class="btn btn--primary btn--full" value="Modifier mon compte" />
+						</div>
+					</form>
+				</div>
+					
+			</div>
+			
+	</section>
+	</main>
+{% endblock %}

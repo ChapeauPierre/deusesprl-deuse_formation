@@ -1,0 +1,176 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n admin_urls static %}
+
+{% block extrastyle %}
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
+
+	{{ block.super }}
+
+	<style>
+		.progess-bar {
+			padding: 50px;
+	  	}
+
+	  	.btn {
+			margin: 0 0 8px 8px;
+			text-transform: uppercase;
+			border: none;
+			font-weight: 400;
+			background: #417690;
+			height: 35px;
+			line-height: 15px;
+			padding: 8px 15px;
+			border-radius: 4px;
+			color: #fff !important;
+			cursor: pointer;
+			vertical-align: middle;
+			font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+			font-size: 13px;
+			align-items: flex-start;
+			text-align: center;
+			box-sizing: border-box;
+			user-select: none;
+			white-space: pre;
+			outline:none;
+			top: 6px;
+			position: relative;
+	  	}
+
+	  	.btn:hover {
+		  	background: #205067;
+	  	}
+
+	  	.btn-failure {
+		  	background: #cc3434;
+	  	}
+
+	  	.btn-failure:hover {
+		  	background: #ba2121;
+	  	}
+	</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+
+		{% if opts %}
+			&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+			&rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+		{% endif %}
+
+		&rsaquo; {{title}}
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="progess-bar">
+	  	<div class='progress-wrapper'>
+			<h1 id="progress-bar-title" style='text-align: center'>{% translate "Merci de bien vouloir patienter" %}</h1>
+			<div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
+	  	</div>
+	  	<div id="progress-bar-message"></div>
+	</div>
+{% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
+	<script type="text/javascript">
+		if (jQuery != undefined) {
+			var django = {
+				'jQuery': jQuery,
+			}
+		}
+
+		(function($) {
+  			$(function() {
+				var progressUrl = "{% url 'celery_progress' task_id %}";
+				var downloadUrl = "{% url 'celery_download' task_id %}";
+
+				var progressBar = document.getElementById('progress-bar');
+				var progressBarTitle = document.getElementById('progress-bar-title');
+				var progressBarMessage = document.getElementById('progress-bar-message');
+				var progressBarPercent = 0
+
+				function onProgress(progress) {
+					progressBarPercent = (progressBarPercent % 100 + 10);
+
+					progressBar.style.backgroundColor = '#c4dce8';
+					progressBar.style.width = progressBarPercent + "%";
+					progressBarMessage.innerHTML = (
+						"<div style='text-align:center'>" +
+						"<h3>{{message}}</h3>" +
+						"</div>"
+					);
+				}
+
+				function onSuccess(filename) {
+					progressBar.style.backgroundColor = '#417690';
+					progressBar.style.width = "100%";
+					progressBarTitle.innerText= "TerminÃ©";
+	  				progressBarMessage.innerHTML = (
+						"<div>" +
+						"<h2>{{success_message}}</h2><br /><br />" +
+						"<div class='submit-row'>" +
+						"<button class='btn' onclick='window.location.href = \"{{next_url}}\";''>Terminer</button>" +
+						"</div>"
+	  				);
+
+	  				// If celery task return filename information, we autmatically download it.
+	  				if(filename) {
+						window.location.href = downloadUrl;
+	  				}
+				}
+
+				function onError(errors) {
+					progressBar.style.backgroundColor = '#cc3434';
+					progressBar.style.width = "100%";
+					progressBarTitle.innerText= "Erreurs";
+
+					errors_html = errors.map(function(error) {
+						return "<li>" + error + "</li><br />";
+					});
+	  				errors_html = errors_html.join('');
+
+	  				progressBarMessage.innerHTML = (
+						"<div>" +
+						"<h2>{{error_message}}</h2><br />" +
+						"<ul>" +
+						errors_html +
+						"</ul>" +
+						"<div class='submit-row'>" +
+						"<button class='btn btn-failure' onclick='window.history.back();'>Retour</button>" +
+						"</div>"
+	  				);
+				}
+
+				function updateProgress() {
+	  				// Call celery_progress views (get current progression)
+	  				fetch(progressUrl).then(function(response) {
+						response.json().then(function(data) {
+
+						// Update progession informations diplayed
+						if (data.progress) {
+							onProgress(data.progress);
+						}
+
+						// If task not complete, refresh informations after 1 second
+						if (!data.complete) {
+							setTimeout(updateProgress, 1000);
+						} else {
+							if (data.success) {
+								onSuccess(data.filename);
+							} else {
+								onError(data.errors);
+							}
+						}
+					});
+	  			});
+			}
+			updateProgress();
+  		});
+	}(django.jQuery));
+</script>
+{% endblock %}

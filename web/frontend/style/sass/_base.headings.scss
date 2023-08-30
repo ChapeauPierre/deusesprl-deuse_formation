@@ -1,0 +1,45 @@
+//** Style des titres **//
+
+h1,h2,h3,h4,h5{
+  position: relative;
+  font-weight:700;
+  line-height: 1.25;
+  color: black;
+}
+
+
+
+.title--header{
+  font-size: make_em(35,15);
+}
+
+.title--category{
+  font-size: make_em(13,15);
+  color: $color-text-light;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+
+.title--topic, .title--author{
+  font-size: make_em(20,15);
+}
+
+.subtitle--author{
+  font-size: make_em(18,15);
+}
+
+.subtitle--user{
+  color: $color-text-light;
+  font-size: make_em(18,15);
+}
+
+
+@media(max-width:850px){
+  .title--header{
+    font-size: make_em(28,15);
+  }
+
+  .subtitle--user{
+    font-size: make_em(17,15);
+  }
+}

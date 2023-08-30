@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil | {% endblock %}
+
+{% block content %}
+<header>
+	<div class="header__upper column column--spaced column--centered wrapper--main">
+		<a href="/" title="Retourner à la page d’accueil" class="header__logo">Django Forum</a>
+
+		<form class="header__search">
+			<input type="text" class="search__input" placeholder="Rechercher un sujet ..." />
+			<div class="search__submit">
+				<input type="submit" value="Rechercher">
+				<span class="submit__icon">
+					<img src="/static/img/search.svg" alt="Image rechercher" />
+				</span>
+			</div>
+		</form>
+		<nav class="header__menu">
+			<span class="hide">Menu de navigation</span>
+			<ul class="menu__list column column--centered">
+				<li>
+					<a href="/topics/" title="Aller à la page des sujets">Sujets</a>
+				</li>
+
+				<li>
+					<a href="/register/" title="Aller à la page d'inscription">Inscription</a>
+				</li>
+
+				<li>
+					<a href="/login/" title="Aller à la page de connexion">Connexion</a>
+				</li>
+
+				<li>
+					<a href="/profile/user_pk/" title="Afficher mon profil">
+						<img src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+							alt="Photo de Profil de ..." class="menu__profile" />
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+    <div class="header__content header__content--user">
+        <span class="banner--user">
+        </span>
+    
+        <a href="/profile/edit/" class="btn btn--primary btn--small user__edit" title="Editer mon profil">Editer mon profil</a>
+    
+        <div class="user__header section--centered">
+            <div class="picture__container picture__container--detail">
+                <img class="author__picture author__picture--detail" src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Photo de Profil de ..." />
+            </div>
+    
+            <h1 class="title--header">Axel Cardinaels</h1>
+            <p class="subtitle--user">Inscrit le 05 Août 2021 - 203 Messages</p>
+            <div>
+                <span class="author__rank author__rank--detail">Vétéran</span>
+            </div>
+    
+        </div>
+    </div>
+</header>
+
+<main class="page__content">
+    <section class="wrapper--topics wrapper--centered">
+        <h2 class="title--section">Les 18 sujets créés par Axel Cardinaels</h2>
+        <ul class="topics__list topics__list--user">
+            <li class="topic__item card item__wrap">
+                <a href="/topics/topic_pk/" title="Afficher le sujet ...">
+                    <span class="hide">Afficher le sujet ...</span>
+                </a>
+
+                <article class="topic__article">
+                    <h3 class="title--topic">La programmation peut-elle être considérée comme un art ?</h3>
+
+                    <div class="topic__short">
+                        <p>
+                            Tous les ans se tient un <em>concours de programmation[1]</em> en langage C qui
+                            s’appelle « The International Obfuscated C Code Contest ».
+                        </p>
+                    </div>
+
+                    <div class="topic__author column column--spaced">
+                        <div class="topic__recap column column--centered">
+                            <img class="author__picture author__picture--small"
+                                src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                alt="Photo de Profil de ..." />
+                            <p class="author__name">
+                                Posté par
+                                <a href="/profile/user_pk/" title="Afficher le profil de..." class="author__link">Axel Cardinaels</a>
+                                Il y a 2 heures
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </li>
+
+            <li class="topic__item card item__wrap">
+                <a href="/topics/topic_pk/" title="Afficher le sujet ...">
+                    <span class="hide">Afficher le sujet ...</span>
+                </a>
+
+                <article class="topic__article">
+                    <h3 class="title--topic">La programmation peut-elle être considérée comme un art ?</h3>
+
+                    <div class="topic__short">
+                        <p>
+                            Tous les ans se tient un <em>concours de programmation[1]</em> en langage C qui
+                            s’appelle « The International Obfuscated C Code Contest ».
+                        </p>
+                    </div>
+
+                    <div class="topic__author column column--spaced">
+                        <div class="topic__recap column column--centered">
+                            <img class="author__picture author__picture--small"
+                                src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                alt="Photo de Profil de ..." />
+                            <p class="author__name">
+                                Posté par
+                                <a href="/profile/user_pk/" title="Afficher le profil de..." class="author__link">Axel Cardinaels</a>
+                                Il y a 2 heures
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </li>
+
+            <li class="topic__item card item__wrap">
+                <a href="/topics/topic_pk/" title="Afficher le sujet ...">
+                    <span class="hide">Afficher le sujet ...</span>
+                </a>
+
+                <article class="topic__article">
+                    <h3 class="title--topic">La programmation peut-elle être considérée comme un art ?</h3>
+
+                    <div class="topic__short">
+                        <p>
+                            Tous les ans se tient un <em>concours de programmation[1]</em> en langage C qui
+                            s’appelle « The International Obfuscated C Code Contest ».
+                        </p>
+                    </div>
+
+                    <div class="topic__author column column--spaced">
+                        <div class="topic__recap column column--centered">
+                            <img class="author__picture author__picture--small"
+                                src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+                                alt="Photo de Profil de ..." />
+                            <p class="author__name">
+                                Posté par
+                                <a href="/profile/user_pk/" title="Afficher le profil de..." class="author__link">Axel Cardinaels</a>
+                                Il y a 2 heures
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </li>
+        </ul>
+
+        <div class="pagination__container column column--centered">
+            <a href="#" class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                <span><</span>
+            </a>
+            <ul class="pagination__list column column--centered">
+                <li class="pagination__item pagination__item--current">
+                    <a href="#" class="pagination__link" title="Aller à la page 1 des sujets">1</a>
+                </li>
+
+                <li class="pagination__item">
+                    <a href="#" class="pagination__link" title="Aller à la page 2 des sujets">2</a>
+                </li>
+
+                <li class="pagination__item">
+                    <a href="#" class="pagination__link" title="Aller à la page 3 des sujets">3</a>
+                </li>
+            </ul>
+            <a href="#" class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                <span>></span>
+            </a>
+        </div>
+
+    </section>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

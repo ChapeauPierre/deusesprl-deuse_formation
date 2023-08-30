@@ -1,0 +1,75 @@
+//** Style de base des sliders **//
+
+
+
+.slick-list, .slick-track{
+}
+ul.slick-dots{
+  bottom: 20px;
+}
+
+ul.slick-dots li{
+  background: white;
+  border-radius: 100%;
+  width: 12px;
+  height: 12px;
+
+  &.slick-active{
+     background: $color-primary;
+  }
+
+  button{
+    opacity: 0;
+  }
+}
+
+
+
+
+.slick-slider{
+  .slick-arrow{
+    background: blue;
+    position: absolute;
+    right: 0px;
+    bottom: -30px;
+    z-index: 40;
+    top: inherit;
+    left: inherit;
+    background: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slick-arrow:focus{
+    background: white;
+  }
+
+  .slick-arrow:hover{
+    background: $color-primary;
+  }
+
+  .slick-arrow:before{
+    color: black;
+    width: 6px;
+    height: 11px;
+    display: block;
+  }
+
+  .slick-prev{
+    right: 60px;
+    border-right: 1px solid $color-text;
+  }
+
+  .slick-next:before{
+    content: "";
+    @include background_size("../img/arrow--next.svg", no-repeat, center, center, contain);
+  }
+
+  .slick-prev:before{
+    content: "";
+    @include background_size("../img/arrow--prev.svg", no-repeat, center, center, contain);
+  }
+}

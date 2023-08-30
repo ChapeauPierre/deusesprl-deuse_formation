@@ -1,0 +1,156 @@
+# FOR LOCAL DEVELOPMENTS
+
+version: '2'
+services:
+  postgres:
+    image: postgres:14.2-bullseye
+    ports:
+      - "5432"
+    volumes:
+      - deuse_formation_local_pgdata:/var/lib/postgresql/data/
+    env_file: .env_postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  nginx:
+    build: ./nginx/
+    ports:
+      - "80"
+    volumes:
+      - /www/collectstatic
+    volumes_from:
+      - web
+    depends_on:
+      - web
+    networks:
+      - proxypass_default
+      - proxy_pass_default
+      - default
+    environment:
+      - VIRTUAL_HOST=deuse-formation.local
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # The main container - containing the Django code
+  web:
+    build: ./web
+    ports:
+      - "8000"
+    depends_on:
+      - postgres #wait for postgres to be started, not for ready
+      - redis
+      - npm_watch
+    volumes:
+      - ./web:/usr/src/app
+      - ./web/collectstatic:/usr/src/app/collectstatic
+    env_file: .env
+    environment:
+      DEBUG: 'true'
+    command: su myuser -c "/usr/local/bin/python manage.py runserver 0.0.0.0:8000"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container to combine de JS (ReactJS,...) on the fly while developping
+  npm_watch:
+    build: ./web
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./web/frontend:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'true'
+    command: npm run watch
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Database used to store the celery tasks as well as the paths to thumbnails of the images.
+  redis:
+    build: ./redis/
+    ports:
+      - '6379'
+    volumes:
+      - deuse_formation_local_redata:/data
+    env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container handling the asynchronous task queu
+  celery:
+    build: ./web
+    command: su myuser -c "celery -A deuse_formation worker --max-memory-per-child=1024000 --concurrency=4"
+    volumes:
+      - ./web:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'true'
+    links:
+      - postgres
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container running the webvisualisation of the celery tasks
+  flower:
+    build: ./web
+    ports:
+      - '5555'
+    command: su myuser -c "celery -A deuse_formation flower --url_prefix=flower"
+    volumes:
+      - ./web:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'true'
+    links:
+      - postgres
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container handling the tasks that need to be launched with a cron (at a certain point in time: ex 2 am )
+  cron:
+    build: ./cron/
+    environment:
+      - GIT_TAG=DEV
+      - CONTAINER_WEB=web
+      - CONTAINER_DB=postgres
+    volumes:
+      - ./web/media:/backup_system/media
+      - ~/google_storage:/backup_system/key
+      - /var/run/docker.sock:/var/run/docker.sock # Connect the host Docker socker with the container Docker socket
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+volumes:
+  deuse_formation_local_pgdata: {} #declare the volume
+  deuse_formation_local_redata: {} #declare the volume
+
+networks:
+  proxypass_default:
+    external: true
+  proxy_pass_default:
+    external: true

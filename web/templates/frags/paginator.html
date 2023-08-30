@@ -1,0 +1,36 @@
+{% load widget_tweaks i18n %}
+<div class="pagination__container column column--centered">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+            <span><</span>
+        </a>
+    {% else%}
+    <a href="?page={{page_obj.page_number}}" class="pagination__btn pagination__arrow" title="">
+        <span><</span>
+    </a>
+    {% endif %}
+    <ul class="pagination__list column column--centered">
+        {% if page_obj.has_previous %}
+            <li class="pagination__item">
+                <a href="?page={{ page_obj.previous_page_number}}" class="pagination__link" title="Aller à la page {{ page_obj.previous_page_number}} des sujets">{{ page_obj.previous_page_number}}</a>
+            </li>
+        {% endif %}
+        <li class="pagination__item pagination__item--current">
+            <a href="#" class="pagination__link" title="">{{page_obj.number}}</a>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="pagination__item">
+                <a href="?page={{ page_obj.next_page_number}}" class="pagination__link" title="Aller à la page {{ page_obj.next_page_number }} des sujets">{{ page_obj.next_page_number}}</a>
+            </li>
+        {% endif %}
+    </ul>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination__btn pagination__arrow" title="Aller à la page suivante">
+            <span>></span>
+        </a>
+    {% else%}
+        <a class="pagination__btn pagination__arrow" title="">
+            <span>></span>
+        </a>
+    {% endif %}
+</div>

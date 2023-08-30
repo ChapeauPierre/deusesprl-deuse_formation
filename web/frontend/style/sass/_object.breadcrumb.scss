@@ -1,0 +1,38 @@
+//** Style des boutons **//
+.breadcrumb__list{
+  font-size: make_em(14,15);
+  font-weight: 300;
+  margin-bottom: make_em(7,14);
+
+  &.breadcrumb__container--centered{
+    ul{
+      justify-content: center;
+    }
+  }
+}
+
+.breadcrumb__item{
+  display: block;
+
+  color: $color-text-light;
+
+  &.breadcrumb__item--current{
+      color: $color-primary;
+
+    font-weight:700;
+  }
+
+  &+&:before{
+    content:">";
+    color:$color-text-light;
+    margin:0px make_em(6,14);
+  }
+
+  a{
+    color: $color-text-light;
+  }
+
+  &:hover a{
+    color: $color-primary;
+  }
+}

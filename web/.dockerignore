@@ -1,0 +1,8 @@
+# Do not copy the media folder content during the build
+# For big media folders it
+#    - saves time during the build phase
+#    - saves space during the build phase (in /)
+#    - resolve permissions problems during the copy (if a file is syslog:uuidd)
+media/*
+frontend/node_modules/*
+collectstatic/*

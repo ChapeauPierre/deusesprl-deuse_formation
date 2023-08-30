@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static i18n %}
+
+{% block title %}{% translate 'Connexion' %} | {% endblock %}
+
+{% block content %}
+
+{% include 'frags/header.html' %}
+
+<main class="page__content">
+    <section class="section wrapper--form wrapper--centered">
+        <div class="card card--form">
+            <div class="section--centered">
+                <h1 class="title--header">Connexion</h1>
+            </div>
+
+            <div class="form__container">
+                <form  method="POST" >
+                    {% csrf_token %}
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="id_username">Email</label>
+                            <input type="email" class="input--classic input--text" name="username" autofocus="" autocapitalize="none" autocomplete="Quel est votre email" maxlength="254" required="" id="id_username">
+                        </div>
+                    </div>
+
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="id_password">Mot de passe</label>
+                            <input type="password" class="input--classic input--text" name="password" autocomplete="Quel est votre mot de passe" required="" id="id_password">
+                        </div>
+                    </div>
+
+                    <div class="form__submit">
+                        <input type="submit" class="btn btn--primary btn--full" value="Connexion" />
+                        <div class="section--centered">
+                            <a href="/password_reset" class="password__reset" title="Réinitialiser mon mot de passe">Mot de passe
+                                oublié ?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

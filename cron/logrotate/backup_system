@@ -1,0 +1,10 @@
+/backup_system/*.log
+{
+    monthly
+    size 250K
+    rotate 4
+    compress
+    missingok
+    notifempty
+    create 644 root root
+}

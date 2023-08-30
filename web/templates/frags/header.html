@@ -1,0 +1,52 @@
+<header>
+	<div class="header__upper column column--spaced column--centered wrapper--main">
+		<a href="/" title="Retourner à la page d’accueil" class="header__logo">Django Forum</a>
+
+		<form class="header__search" action="/topics/?q={{search_q}}" method="get">
+			<input type="text" class="search__input" placeholder="Rechercher un sujet ..." name="query" id="query" value="{{search_q}}">
+			<div class="search__submit">
+				<input type="submit" value="Rechercher">
+				<span class="submit__icon">
+					<img src="/static/img/search.svg" alt="Image rechercher" />
+				</span>
+			</div>
+		</form>
+		<nav class="header__menu">
+			<span class="hide">Menu de navigation</span>
+			<ul class="menu__list column column--centered">
+				<li>
+					<a href= {% url 'topics:topic_list' %} title="Aller à la page des sujets">Sujets</a>
+				</li>
+
+				<li>
+					<a href= {% url 'user:register' %} title="Aller à la page d'inscription">Inscription</a>
+				</li>
+				{% if request.user.is_authenticated %}
+				<li>
+					<a href="/logout/" title="Se déconnecter">Déconnexion</a>
+				</li>
+				{% else %}
+				<li>
+					<a href="/login/"
+					title="Aller à la page de connexion">Connexion</a>
+				</li>
+				{% endif %}
+
+				<li>
+                    {% if user.is_authenticated %}
+                    <a href={% url 'user:profile' user.id %}
+					title="Afficher mon profil">
+                        <img src={{ user.get_avatar_url }}
+                            alt="Photo de Profil de {{ user.get_fullname }}" class="menu__profile" />
+                    </a>
+                    {% else %}
+					<a href="/login/" title="Afficher mon profil">
+						<img src="https://www.bootdey.com/img/Content/avatar/avatar1.png"
+							alt="Photo de Profil de ..." class="menu__profile" />
+					</a>
+                    {% endif %}
+				</li>
+			</ul>
+		</nav>
+	</div>
+</header>

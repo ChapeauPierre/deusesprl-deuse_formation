@@ -1,0 +1,65 @@
+.author__picture{
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  width: 70px;
+  height: 70px;
+}
+
+
+.author__picture--answer{
+  width: 50px;
+  height: 50px;
+}
+
+
+.author__picture--small{
+  width: 25px;
+  height: 25px;
+}
+
+
+.author__picture--detail{
+  width: 160px;
+  height: 160px;
+  margin-left: auto;
+  margin-right: auto;
+  border:5px solid white;
+  box-shadow: 0px 2px 10px 10px rgba(1,1,1,0.02);
+}
+
+.picture__container{
+  position: relative;
+}
+
+.picture__container--detail{
+
+  margin-bottom: make_em(10,15);
+}
+.author__rank{
+  background: $color-primary;
+  color: white;
+  display: block;
+  border-radius: 8px;
+  font-size: make_em(12,15);
+  padding:make_em(2,12) make_em(7,12);
+  font-weight: 700;
+  margin-left: make_em(10,15);
+}
+
+.author__rank--detail{
+  display: inline-block;
+  font-size: make_em(15,15);
+  margin:make_em(10,15) 0px 0px;
+}
+
+.user__edit{
+  position: absolute;
+  right: percentage(80/1680);
+  transform:translateY(-20px);
+  z-index: 3;
+
+  &:hover{
+    transform:translateY(-15px);
+  }
+}

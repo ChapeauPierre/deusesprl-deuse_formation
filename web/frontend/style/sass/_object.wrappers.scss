@@ -1,0 +1,25 @@
+//** Style des wrappers - container du contenu **//
+
+.wrapper--centered{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.wrapper--main{
+  padding-left: percentage(80/1680);
+  padding-right: percentage(80/1680);
+}
+
+.wrapper--form, .wrapper--topics{
+  width: 750px;
+}
+
+
+@media(max-width:850px){
+  .wrapper--form, .wrapper--topics{
+    width: 100%;
+    padding-left: percentage(80/1680);
+    padding-right: percentage(80/1680);
+  }
+}

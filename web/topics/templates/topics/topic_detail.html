@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Topic | {% endblock %}
+
+{% block content %}
+{% include 'frags/header.html' %}
+{% if error %}
+<div class="error__container">
+    <p class="error__message">{{ error }}</p>
+</div>
+{%else%}
+    <div class="header__content wrapper--main">
+        <nav>
+            <span class="hide">Fil D'ariane</span>
+            <ul class="breadcrumb__list column column--centered">
+                <li class="breadcrumb__item">
+                    <a href="/" title="Retourner à la page d'accueil">Accueil</a>
+                </li>
+    
+                <li class="breadcrumb__item">
+                    <a href= {% url 'topics:topic_list' %}
+                    
+                    title="Retourner à la page des sujets">Tous les sujets</a>
+                </li>
+    
+                <li class="breadcrumb__item breadcrumb__item--current">
+                    <span>
+                        {{ topic.name }}
+                    </span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+<main class="page__content forum__content column--free wrapper--main">
+
+    <a href= {% url 'topics:topic_create' %}
+     title="Créer un nouveau sujet" class="topic__create"><span>+</span></a>
+
+    <div class="forum__main">
+        <section>
+            <header class="topic__header">
+                <h1 class="title--header">
+                    {{ topic.name }}
+                </h1>
+                <div class="answer__header answer__header--main column column--centered">
+                    <div class="picture__container">
+                        <img class="author__picture" src={{ topic.user.get_avatar_url }}
+                            alt="Photo de Profil de {{ topic.user.get_fullname }}" />
+                    </div>
+                    <div class="answer__author">
+                        <div class="column column--centered">
+                            <h3 class="title--author">{{ topic.user.get_fullname }}</h3>
+                            <span class="author__rank">Vétéran</span>
+                        </div>
+                        {% if request.user == topic.user and topic.status == "open"%}
+                        <div class="btn btn--small user__edit">
+                            <a href= {% url 'topics:topic_close' topic.slug %}
+                             class="btn btn--secondary" title="Fermer le sujet">
+                                <span class="btn--full">Fermer le sujet</span>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if request.user == topic.user and topic.status == "closed"%}
+                        <div class="btn btn--small user__edit">
+                            <a href= {% url 'topics:topic_reopen' topic.slug %}
+                             class="btn btn--secondary" title="Ouvrir le sujet">
+                                <span class="btn--full">Ouvrir le sujet</span>
+                            </a>    
+                        </div>
+                        {% endif %}
+                        <p class="answer__date">Il y a {{ topic.created_at|timesince }}</p>
+                    </div>
+                </div>
+
+                <div class="topic__content">
+                    <p>
+                        {{ topic.description }}
+                    </p>
+                </div>
+            </header>
+
+
+            <div class="topics__answers">
+                <h2 class="title--section">{{ topic.responses.count }} Réponses</h2>
+                <ul class="answers__list">
+                    {% for answer in responses %}
+                    <li class="answer__item">
+                        <article class="answer__article">
+                            <div class="answer__header column column--centered">
+                                <div class="picture__container">
+                                    <img class="author__picture author__picture--answer"
+                                        src={{ answer.user.get_avatar_url }}
+                                        alt="Photo de Profil de {{
+                                        answer.user.get_fullname
+                                        }}" />
+                                </div>
+                                <div class="answer__author">
+                                    <div class="column column--centered">
+                                        <h3 class="subtitle--author">{{ answer.user.get_fullname }}</h3>
+                                        <span class="author__rank">Daron</span>
+                                    </div>
+                                    <p class="answer__date">Il y a {{ answer.created_at|timesince }}</p>
+                                </div>
+                            </div>
+
+                            <div class="answer__content">
+                                <p>
+                                    {{ answer.text }}
+                                </p>
+                            </div>
+                        </article>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% include 'frags/paginator.html'%}
+        </section>
+        {% if request.user.is_authenticated and topic.status == "open"%}
+        <section class="section answer__answer">
+            <h2 class="title--section">Ajouter une réponse</h2>
+            <form class="answer__form" action= {% url 'topics:topic_detail' topic.slug %}
+             method="POST">
+                {% csrf_token %}
+                <div class="form__line">
+                    <div class="form__part form__part--full">
+                        <textarea class="input--classic input--text" placeholder="Quelle est votre réponse ?"
+                            id="message" name="message"></textarea>
+                    </div>
+                </div>
+
+                <div class="form__submit">
+                    <input type="submit" class="btn btn--primary btn--full" value="Poster ma réponse" />
+                </div>
+            </form>
+        </section>
+        {% endif %}
+    </div>
+    
+    <aside class="forum__aside">
+        <nav class="categories__menu">
+            <h2 class="title--category">Catégories</h2>
+            <ul class="categories__list">
+                <li class="category__item">
+                    <a href=  "/topics/
+                     class="category__link" title="Afficher tous les sujets">
+                        Tous les sujets
+                    </a>
+                </li>
+                {% if topic.status == "closed" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=closed
+                    class="category__link"
+                        title="Afficher tous les sujets de la catégorie Fermés">
+                        Fermés
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=closed
+                    class="category__link"
+                        title="Afficher tous les sujets de la catégorie Fermés">
+                        Fermés
+                    </a>
+                </li>
+                {% endif %}
+                {% if topic.status == "open" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=open
+                     class="category__link"
+                        title="Afficher tous les sujets de la catégorie ouverts">
+                        Ouverts
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=open
+                     class="category__link"
+                        title="Afficher tous les sujets de la catégorie ouverts">
+                        Ouverts
+                    </a>
+                </li>
+                {% endif %}
+                {% if status == "no_responses" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=no_responses
+                     class="category__link"
+                        title="Afficher tous les sujets de la catégorie pas encore de réponse">
+                        Pas encore de réponse
+                    </a>
+                </li>
+                {% else %}
+
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=no_responses
+                    class="category__link"
+                        title="Afficher tous les sujets de la catégorie pas encore de réponse">
+                        Pas encore de réponse
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </aside>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endif %}
+{% endblock %}

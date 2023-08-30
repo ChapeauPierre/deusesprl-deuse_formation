@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil | {% endblock %}
+
+{% block content %}
+<header>
+	<div class="header__upper column column--spaced column--centered wrapper--main">
+		<a href="/" title="Retourner à la page d’accueil" class="header__logo">Django Forum</a>
+
+		<form class="header__search">
+			<input type="text" class="search__input" placeholder="Rechercher un sujet ..." />
+			<div class="search__submit">
+				<input type="submit" value="Rechercher">
+				<span class="submit__icon">
+					<img src="/static/img/search.svg" alt="Image rechercher" />
+				</span>
+			</div>
+		</form>
+		<nav class="header__menu">
+			<span class="hide">Menu de navigation</span>
+			<ul class="menu__list column column--centered">
+				<li>
+					<a href= {% url 'topics:topic_list' %}
+                     title="Aller à la page des sujets">Sujets</a>
+				</li>
+
+				<li>
+					<a href= {% url 'user:register' %}
+                    title="Aller à la page d'inscription">Inscription</a>
+				</li>
+                {% if request.user.is_authenticated %}
+                <li>
+                    <a href="/logout/" title="Se déconnecter">Déconnexion</a>
+                </li>
+                {% else %}
+				<li>
+					<a href="/login/" title="Aller à la page de connexion">Connexion</a>
+				</li>
+                {% endif %}
+
+				<li>
+					<a href= {% url 'user:profile' user.id %}
+                     title="Afficher mon profil">
+                        {% if request.user.is_authenticated %}
+						<img src={{ request.user.get_avatar_url }}
+							alt="Photo de Profil de {{ request.user.get_fullname }}" class="menu__profile" />
+                        {% else %}
+                        <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Photo de Profil de ..." class="menu__profile" />
+                        {% endif %}
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+    <div class="header__content header__content--user">
+        
+        <span class="banner--user">
+        </span>
+        {% if request.user.is_authenticated and request.user.id == user.id %}
+        <a href= {% url 'user:profile_edit' user.id %}
+         class="btn btn--primary btn--small user__edit" title="Editer mon profil">Editer mon profil</a>
+        {% endif %}
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+        <div class="user__header section--centered">
+            <div class="picture__container picture__container--detail">
+                <img class="author__picture author__picture--detail" src={{ user.get_avatar_url }}
+                    alt="Photo de Profil de {{ user.get_fullname }}" />
+            </div>
+    
+            <h1 class="title--header">{{ user.get_fullname }}</h1>
+
+            <p class="subtitle--user">Inscrit le {{ user.date_joined|date:"d/m/Y" }} - {{ user.topics.count|add:user.responses.count}} messages</p>
+    
+            <div>
+                <span class="author__rank author__rank--detail">Vétéran</span>
+            </div>
+    
+        </div>
+    </div>
+</header>
+
+<main class="page__content">
+    <section class="wrapper--topics wrapper--centered">
+        <h2 class="title--section">Les {{ user.topics.count}} sujets de {{ user.get_fullname}}</h2> 
+        <ul class="topics__list topics__list--user">
+            {% for topic in page_obj %}
+
+            <li class="topic__item card item__wrap">
+                <a href= {% url 'topics:topic_detail' topic.slug %}
+                 title="Afficher le sujet {{ topic.name }}">
+                    <span class="hide">Afficher le sujet {{ topic.name }}</span>
+                </a>
+                <article class="topic__article">
+                    <h3 class="title--topic">{{topic.name}}</h3>
+                    <div class="topic__short">
+                        <p>
+                        {{topic.description}}
+                        </p>
+                    </div>
+                    <div class="topic__author column column--spaced">
+                        <div class="topic__recap column column--centered">
+                            <img class="author__picture author__picture--small"
+                                src={{ topic.user.get_avatar_url }}
+                                alt="Photo de Profil de {{ topic..get_fullname }}" />
+                            <p class="author__name">
+                                Posté par
+                                <a href= {% url 'user:profile' topic.user.id %}
+                                title="Afficher le profil de{{ topic.user.get_fullname }}" class="author__link">{{topic.user.get_fullname}}</a>
+                                Il y a {{topic.created_at|timesince}}.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </li>
+            {% endfor %}
+
+        </ul>
+
+        <div class="pagination__container column column--centered">
+            {% if page_obj.has_previous %}
+                <a href= {% url 'user:profile' user.id %}?page={{ page_obj.previous_page_number }}&query= 
+                 class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                    <span><</span>
+                </a>
+            {% else%}
+            <a href= {% url 'user:profile' user.id %}?page={{page_obj.page_number}}&query=
+            class="pagination__btn pagination__arrow" title="">
+                <span><</span>
+            </a>
+            {% endif %}
+            <ul class="pagination__list column column--centered">
+                {% if page_obj.has_previous %}
+                    <li class="pagination__item">
+                        <a href= {% url 'user:profile' user.id %}?page={{ page_obj.previous_page_number }}&query=
+                         class="pagination__link" title="Aller à la page {{ page_obj.previous_page_number}} des sujets">{{ page_obj.previous_page_number}}</a>
+                    </li>
+                {% endif %}
+                <li class="pagination__item pagination__item--current">
+                    <a href="#" class="pagination__link" title="">{{page_obj.number}}</a>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="pagination__item">
+                        <a href= {% url 'user:profile' user.id %}?page={{ page_obj.next_page_number }}&query=
+                         class="pagination__link" title="Aller à la page {{ page_obj.next_page_number }} des sujets">{{ page_obj.next_page_number}}</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if page_obj.has_next %}
+                <a href= {% url 'user:profile' user.id %}?page={{ page_obj.next_page_number }}&query=
+                 class="pagination__btn pagination__arrow" title="Aller à la page suivante">
+                    <span>></span>
+                </a>
+            {% else%}
+                <a class="pagination__btn pagination__arrow" title="">
+                    <span>></span>
+                </a>
+            {% endif %}
+        </div>
+
+    </section>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

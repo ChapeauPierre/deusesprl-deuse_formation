@@ -1,0 +1,15 @@
+em{
+  font-style: normal;
+}
+
+.text__break{
+  display: block;
+}
+
+
+.main__intro{
+  font-size: make_em(16,15);
+  max-width: 650px;
+  margin-top: make_em(20,16);
+  line-height: 1.8;
+}

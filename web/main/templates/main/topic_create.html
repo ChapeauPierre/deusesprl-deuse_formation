@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Topic | {% endblock %}
+
+{% block content %}
+{% include 'frags/header.html' %}
+
+<main class="page__content forum__content column--free wrapper--main">
+    <div class="forum__main">
+        <section class="section">
+            <h1 class="title--header">Créer un nouveau sujet</h1>
+            <div class="form__container">
+                <form>
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="title">Titre</label>
+                            <input type="text" class="input--classic input--text" placeholder="Quel est le titre ?" id="title" name="title"/>
+                        </div>
+                    </div>
+
+                    <div class="form__line">
+                        <div class="form__part form__part--full">
+                            <label class="form__label" for="message">Message</label>
+                            <textarea class="input--classic input--text" placeholder="Quel est votre message ?" id="message" name="message"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form__submit">
+                        <input  type="submit" class="btn btn--primary btn--full" value="Créer mon sujet" />
+                    </div>
+                </form>
+            </div>
+        </section>
+</div>
+    <aside class="forum__aside">
+        <nav class="categories__menu">
+            <h2 class="title--category">Catégories</h2>
+            <ul class="categories__list">
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link" title="Afficher tous les sujets" >
+                        Tous les sujets
+                    </a>
+                </li>
+
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link" title="Afficher tous les sujets de la catégorie résolus" >
+                        Résolus
+                    </a>
+                </li>
+
+                <li class="category__item category__item--current">
+                    <a href="javascript:void(0)" class="category__link" title="Afficher tous les sujets de la catégorie ouverts" >
+                        Ouverts
+                    </a>
+                </li>
+
+                <li class="category__item">
+                    <a href="javascript:void(0)" class="category__link" title="Afficher tous les sujets de la catégorie pas encore de réponse" >
+                        Pas encore de réponse
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</main>
+
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

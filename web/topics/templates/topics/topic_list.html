@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block title %}Topics | {% endblock %}
+{% block content %}
+{% include 'frags/header.html'%}
+<div class="header__content wrapper--main">
+    <nav>
+        <span class="hide">Fil D'ariane</span>
+        <ul class="breadcrumb__list column column--centered">
+            <li class="breadcrumb__item">
+                <a href="/" title="Retourner à la page d'accueil">Accueil</a>
+            </li>
+            <li class="breadcrumb__item breadcrumb__item--current">
+                {% if status == "open" %}
+                <span>Ouverts</span>
+                {% elif status == "closed" %}
+                <span>Résolus</span>
+                {% elif status == "no_responses" %}
+                <span>Pas encore de réponse</span>
+                {% else %}
+                <span>Tous les sujets</span>
+                {% endif %}
+
+            </li>
+        </ul>
+    </nav>
+    <h1 class="title--header">
+        {% if status == "open" %}
+        Sujets ouverts
+        {% elif status == "closed" %}
+        Sujets résolus
+        {% elif status == "no_responses" %}
+        Sujets sans réponses
+        {% else %}
+        Tous les sujets
+        {% endif %}
+    </h1>
+</div>
+<main class="page__content forum__content column--free wrapper--main">
+    {% if request.user.is_authenticated %}
+    <a href= {% url 'topics:topic_create' %}
+     title="Créer un nouveau sujet" class="topic__create"><span>+</span></a>
+    {% else %}
+    <a href= {% url 'login' %}
+     title="Créer un nouveau sujet" class="topic__create"><span>+</span></a>
+    {% endif %}
+    <div class="forum__main">
+        <section>
+            <h2 class="hide">Liste des sujets</h2>
+            <ul class="topics__list">
+                {% for topic in page_obj %}
+                <li class="topic__item card item__wrap">
+                    <a href= {% url 'topics:topic_detail' slug=topic.slug %}
+                        
+                     title="Afficher le sujet {{ topic.name}}">
+                        <span class="hide">Afficher le sujet {{ topic.name }}</span>
+                    </a>
+                    <article class="topic__article">
+                        <h3 class="title--topic">{{topic.name}}</h3>
+                        <div class="topic__short">
+                            <p>
+                            {{topic.description}}
+                            </p>
+                        </div>
+                        <div class="topic__author column column--spaced">
+                            <div class="topic__recap column column--centered">
+                                <img class="author__picture author__picture--small"
+                                    src={{ topic.user.get_avatar_url }}
+                                    alt="Photo de Profil de {{ topic.user.get_fullname }}" />
+                                <p class="author__name">
+                                    Posté par
+                                    <a href= {% url 'user:profile' topic.user.id %}
+                                     title="Afficher le profil de {{ topic.user.get_fullname }}" class="author__link">{{topic.user.get_fullname}}</a>
+                                    Il y a {{topic.created_at|timesince}}.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="pagination__container column column--centered">
+                {% if page_obj.has_previous %}
+                    <a href= {% url 'topics:topic_list' %}?page={{ page_obj.previous_page_number }}&query={{search_q}}&status={{status}}
+                    class="pagination__btn pagination__arrow" title="Aller à la page précédente">
+                        <span><</span>
+                    </a>
+                {% else%}
+                <a href= {% url 'topics:topic_list' %}?page={{page_obj.page_number}}&query={{search_q}}&status={{status}}
+                 class="pagination__btn pagination__arrow" title="">
+                    <span><</span>
+                </a>
+                {% endif %}
+                <ul class="pagination__list column column--centered">
+                    {% if page_obj.has_previous %}
+                        <li class="pagination__item">
+                            <a href= {% url 'topics:topic_list' %}?page={{ page_obj.previous_page_number }}&query={{search_q}}&status={{status}}
+                             class="pagination__link" title="Aller à la page {{ page_obj.previous_page_number}} des sujets">{{ page_obj.previous_page_number}}</a>
+                        </li>
+                    {% endif %}
+                    <li class="pagination__item pagination__item--current">
+                        <a href="#" class="pagination__link" title="">{{page_obj.number}}</a>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="pagination__item">
+                            <a href= {% url 'topics:topic_list' %}?page={{ page_obj.next_page_number }}&query={{search_q}}&status={{status}}
+                             class="pagination__link" title="Aller à la page {{ page_obj.next_page_number }} des sujets">{{ page_obj.next_page_number}}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% if page_obj.has_next %}
+                    <a href= {% url 'topics:topic_list' %}?page={{ page_obj.next_page_number }}&query={{search_q}}&status={{status}}
+                     class="pagination__btn pagination__arrow" title="Aller à la page suivante">
+                        <span>></span>
+                    </a>
+                {% else%}
+                    <a class="pagination__btn pagination__arrow" title="">
+                        <span>></span>
+                    </a>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+    <aside class="forum__aside">
+        <nav class="categories__menu">
+            <h2 class="title--category">Catégories</h2>
+            <ul class="categories__list">
+                {% if status == 'all' %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}
+                     class="category__link" title="Afficher tous les sujets">
+                        Tous les sujets
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}
+                    title="Afficher tous les sujets">
+                        Tous les sujets
+                    </a>
+                </li>
+                {% endif %}
+                {% if status == "closed" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=closed
+                     class="category__link" title="Afficher tous les sujets résolus">
+                        Résolus
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=closed
+                    class="category__link" title="Afficher tous les sujets résolus">
+                        Résolus
+                    </a>
+                </li>
+                {% endif %}
+                {% if status == "open" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=open
+                     class="category__link" title="Afficher tous les sujets ouverts">
+                        Ouverts
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=open
+                    class="category__link" title="Afficher tous les sujets ouvert">
+                        Ouverts
+                    </a>
+                </li>
+                {% endif %}
+                {% if status == "no_responses" %}
+                <li class="category__item category__item--current">
+                    <a href= {% url 'topics:topic_list' %}?status=no_responses
+                     class="category__link" title="Afficher tous les sujets sans réponse">
+                        Pas encore de réponse
+                    </a>
+                </li>
+                {% else %}
+                <li class="category__item">
+                    <a href= {% url 'topics:topic_list' %}?status=no_responses
+                     class="category__link" title="Afficher tous les sujets sans réponse">
+                        Pas encore de réponse
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </aside>
+</main>
+<footer class="section--centered">
+    <h2 class="hide">Pied de page</h2>
+    <p class="footer__disclaimer">© 2021 Copyright
+        <a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+        <a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+    </p>
+</footer>
+{% endblock %}

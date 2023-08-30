@@ -1,0 +1,94 @@
+//** Style des différents Header **//
+
+.header__upper{
+  background: white;
+  box-shadow: 0px 10px 20px 3px rgba(1,1,1,0.05);
+  padding-top:make_em(15,15);
+  padding-bottom:make_em(15,15);
+  position: relative;
+  z-index: 2;
+}
+
+.header__upper--user{
+  box-shadow: 0px 10px 20px 3px rgba(1,1,1,0.15);
+}
+
+
+.header__content{
+  padding-top:make_em(40,15);
+  padding-bottom:make_em(40,15);
+}
+
+.header__content--user{
+  padding:0px;
+}
+
+.header__logo{
+  font-weight: 700;
+}
+
+.header__search{
+  width: 25%;
+  border-radius: 8px;
+  background: $color-bg;
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform:translateY(-50%) translateX(-50%);
+
+}
+
+.search__submit{
+  position: absolute;
+  right: make_em(20,15);
+  top:50%;
+  transform:translateY(-50%);
+
+  input{
+    position: absolute;
+    left: 0px;
+    top:0px;
+    width: 100%;
+    height: 100%;
+    line-height: 0;
+    color: transparent;
+  }
+}
+
+.submit__icon{
+  display: block;
+  line-height: 1;
+}
+
+
+.banner--user{
+  height: 230px;
+  display: block;
+  @include background_size("../img/user-banner3.jpg", repeat, center, center, cover);
+}
+
+.user__header{
+  position: relative;
+  top:-70px;
+}
+
+
+
+@media(max-width:1000px){
+  .header__search{
+    position: relative;
+    left: inherit;
+    top:inherit;
+    transform:none;
+    width: 35%;
+  }
+}
+
+
+@media(max-width:750px){
+  .header__search{
+    width: 100%;
+    margin-top: make_em(10,15);
+    order:5;
+  }
+}

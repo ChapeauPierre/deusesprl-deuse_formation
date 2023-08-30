@@ -1,0 +1,151 @@
+version: '2'
+services:
+  postgres:
+    restart: always
+    image: postgres:14.2-bullseye
+    ports:
+      - "5432"
+    volumes:
+      - deuse_formation_prod_pgdata:/var/lib/postgresql/data/
+    env_file: .env_postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile-prod
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - /www/collectstatic
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ../proxy_pass/certs/deuse-formation.deuse.live:/etc/nginx/certs
+    volumes_from:
+      - web
+    depends_on:
+      - web
+    networks:
+      - proxypass_default
+      - default
+    environment:
+      - VIRTUAL_HOST=deuse-formation.deuse.live,prod.deuse-formation.com,deuse-formation.com,www.deuse-formation.com
+      - LETSENCRYPT_HOST=deuse-formation.deuse.live,prod.deuse-formation.com,deuse-formation.com,www.deuse-formation.com
+      - LETSENCRYPT_SINGLE_DOMAIN_CERTS=true
+      - LETSENCRYPT_TEST=false # Set to true when testing the project architecture to avoid Let's Encrypt requests limitations
+      - VIRTUAL_PROTO=https
+      - VIRTUAL_PORT=443
+      - SSL_POLICY=Mozilla-Modern
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # The main container - containing the Django code
+  web:
+    restart: always
+    build: ./web
+    ports:
+      - "8000"
+    depends_on:
+      - postgres #wait for postgres to be started, not for ready
+      - redis
+    volumes:
+      - ./web:/usr/src/app
+      - ./web/collectstatic:/usr/src/app/collectstatic
+    env_file: .env
+    environment:
+      DEBUG: 'false'
+    command: su myuser -c "/usr/local/bin/gunicorn deuse_formation.wsgi:application --name 'deuse_formation' --workers 3 -b :8000"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Database used to store the celery tasks as well as the paths to thumbnails of the images.
+  redis:
+    restart: always
+    build: ./redis/
+    ports:
+      - '6379'
+    volumes:
+      - deuse_formation_prod_redata:/data
+    env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container handling the asynchronous task queu
+  celery:
+    restart: always
+    build: ./web
+    command: su myuser -c "celery -A deuse_formation worker --max-memory-per-child=1024000 --concurrency=4"
+    volumes:
+      - ./web:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'false'
+    links:
+      - postgres
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container running the webvisualisation of the celery tasks
+  flower:
+    restart: always
+    build: ./web
+    ports:
+      - '5555'
+    command: su myuser -c "celery -A deuse_formation flower --url_prefix=flower"
+    volumes:
+      - ./web:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'false'
+    links:
+      - postgres
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+  # Container handling the tasks that need to be launched with a cron (at a certain point in time: ex 2 am )
+  cron:
+    restart: always
+    build: ./cron/
+    environment:
+      - GIT_TAG=PROD
+      - CONTAINER_WEB=web
+      - CONTAINER_DB=postgres
+    volumes:
+      - ./web/media:/backup_system/media
+      - ~/google_storage:/backup_system/key
+      - /var/run/docker.sock:/var/run/docker.sock # Connect the host Docker socker with the container Docker socket
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 15m
+
+volumes:
+  deuse_formation_prod_pgdata: {} #declare the volume
+  deuse_formation_prod_redata: {}
+
+networks:
+  proxypass_default:
+    external: true

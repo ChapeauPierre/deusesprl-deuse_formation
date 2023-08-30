@@ -1,0 +1,51 @@
+//** Style de base pour l'alignement et la disposition des éléments **//
+
+
+.forum__content{
+  margin-top:make_em(30,15);
+  flex-direction: row-reverse;
+  position: relative;
+}
+.forum__main{
+  width: 50%;
+  min-width: 700px;
+  margin-right: auto;
+}
+
+.forum__aside{
+  min-width: 250px;
+  margin-right: percentage(200/1520);
+}
+
+
+
+@media(max-width:1200px){
+  .forum__aside{
+    min-width: 200px;
+    margin-right: percentage(100/1520);
+  }
+
+  .forum__main{
+    width: 100%;
+    min-width: inherit;
+  }
+}
+
+
+@media(max-width:850px){
+
+  .forum__content{
+    flex-direction: column-reverse;
+    margin-top: 0px;
+  }
+  .forum__aside, .forum__main{
+    min-width: inherit;
+    width: 100%;
+    margin-right:0px;
+  }
+
+  .forum__main{
+    margin-top: make_em(40,15);
+  }
+
+}

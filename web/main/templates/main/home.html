@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'frags/header.html' %}
+
+<div class="section--centered column column--centered column--centered-w" style="width:100vw; height:100vh;">
+	<div>
+		<img src="/static/img/logo-deuse.svg" alt="Logo Deuse" style="width:200px;" />
+
+		<div style="margin-top:30px;">
+			<h1>Django Forum</h1>
+		</div>
+	</div>
+</div>
+
+<footer class="section--centered">
+	<h2 class="hide">Pied de page</h2>
+	<p class="footer__disclaimer">© 2021 Copyright
+		<a href="https://github.com/duboisR/django-forum" target="_blank" title="Visiter le profil GitHub de Romain Dubois">duboisR</a> &
+		<a href="https://github.com/AxelCardinaels" target="_blank" title="Visiter le profil GitHub de Axel Cardinaels">AxelCardinaels</a>
+	</p>
+</footer>
+{% endblock %}
